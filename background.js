@@ -9,7 +9,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
 
     chrome.action.setBadgeBackgroundColor({
       tabId,
-      color: "#E53935" // red
+      color: "#E53935" 
     });
 
     console.log("Insecure HTTP detected:", message.url);

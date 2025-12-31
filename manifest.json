@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Shieldro",
-  "description": "Warns users about insecure and risky websites",
+  "description": "Warns users about insecure and risky websites that may compromise their privacy and security.",
   "version": "0.1.0",
 
   "icons": {
