@@ -21,6 +21,11 @@
     });
   };
 
+  function detectIPInURL(url) {
+  const ipRegex = /^(http|https):\/\/\d{1,3}(\.\d{1,3}){3}/;
+  return ipRegex.test(url);
+  }
+
   check("img", "src");
   check("script", "src");
   check("iframe", "src");
@@ -38,4 +43,48 @@
       issues: []
     });
   }
+
+  (function () {
+  const url = window.location.href;
+  const hostname = window.location.hostname;
+
+  const issues = [];
+  let level = "safe";
+
+  if (detectIPInURL(url)) {
+    issues.push("URL uses IP address instead of domain");
+    level = "danger";
+  }
+
+  if (detectExcessiveSubdomains(hostname)) {
+    issues.push("Excessive number of subdomains");
+    level = "danger";
+  }
+
+  if (detectSuspiciousKeywords(url)) {
+    issues.push("Suspicious keywords found in URL");
+    if (level !== "danger") level = "warning";
+  }
+
+  if (detectHyphenatedDomain(hostname)) {
+    issues.push("Hyphenated domain name detected");
+    if (level !== "danger") level = "warning";
+  }
+
+  if (detectLongURL(url)) {
+    issues.push("Unusually long URL");
+    if (level !== "danger") level = "warning";
+  }
+
+  if (issues.length > 0) {
+    chrome.runtime.sendMessage({
+      type: "SECURITY_RESULT",
+      level,
+      issues
+    });
+  }
+})();
+
+
+
 })();
