@@ -1,7 +1,7 @@
 (() => {
   const issues = [];
 
-  // 1. HTTP check
+
   if (location.protocol === "http:") {
     chrome.runtime.sendMessage({
       type: "SECURITY_RESULT",
@@ -11,7 +11,7 @@
     return;
   }
 
-  // 2. Mixed content check (only on HTTPS)
+
   const check = (selector, attr) => {
     document.querySelectorAll(selector).forEach(el => {
       const src = el.getAttribute(attr);

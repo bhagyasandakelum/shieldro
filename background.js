@@ -15,9 +15,7 @@ function setBadge(tabId, level) {
   });
 }
 
-/* ---------------------------
-   RESET STATE ON NAVIGATION
----------------------------- */
+
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
   if (changeInfo.status === "loading") {
     TAB_SECURITY[tabId] = {
@@ -31,9 +29,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
   }
 });
 
-/* ---------------------------
-   CONTENT SCRIPT RESULTS
----------------------------- */
+
 chrome.runtime.onMessage.addListener((msg, sender) => {
   if (msg.type !== "SECURITY_RESULT") return;
   if (!sender.tab || sender.tab.id < 0) return;
@@ -57,9 +53,7 @@ chrome.runtime.onMessage.addListener((msg, sender) => {
   });
 });
 
-/* ---------------------------
-   SECURITY HEADERS (HTTPS ONLY)
----------------------------- */
+
 const REQUIRED_HEADERS = [
   "content-security-policy",
   "strict-transport-security",
