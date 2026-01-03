@@ -4,8 +4,15 @@
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <h3>Site Security Status</h3>
-  <p id="status">Checking...</p>
+  <div class="container">
+    <h2 id="title">Site Security</h2>
+
+    <div id="status" class="status safe">
+      Checking...
+    </div>
+
+    <ul id="details"></ul>
+  </div>
 
   <script src="popup.js"></script>
 </body>

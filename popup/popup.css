@@ -1,5 +1,65 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Popup container */
 body {
-  font-family: Arial, sans-serif;
-  min-width: 250px;
+  width: 300px;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: #0f172a; /* dark navy */
+  color: #e5e7eb;
+}
+
+/* Main card */
+.container {
+  padding: 16px;
+}
+
+/* Title */
+h2 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #38bdf8;
+}
+
+/* Status badge */
+.status {
   padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+/* Severity states */
+.safe {
+  background: #064e3b;
+  color: #6ee7b7;
+}
+
+.warning {
+  background: #78350f;
+  color: #fde68a;
+}
+
+.danger {
+  background: #7f1d1d;
+  color: #fecaca;
+}
+
+/* Issue list */
+ul {
+  list-style: none;
+}
+
+ul li {
+  background: #020617;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  border-left: 4px solid #38bdf8;
 }

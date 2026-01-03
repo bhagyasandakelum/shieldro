@@ -1,43 +1,41 @@
 (() => {
   const issues = [];
 
-  // Check protocol
-  const pageIsHTTPS = location.protocol === "https:";
-
-  if (!pageIsHTTPS) {
+  // 1. HTTP check
+  if (location.protocol === "http:") {
     chrome.runtime.sendMessage({
-      type: "INSECURE_HTTP",
-      url: location.href
+      type: "SECURITY_RESULT",
+      level: "danger",
+      issues: ["Site is using insecure HTTP"]
     });
     return;
   }
 
-  // Mixed content checks
-  const checkElements = (selector, attr) => {
+  // 2. Mixed content check (only on HTTPS)
+  const check = (selector, attr) => {
     document.querySelectorAll(selector).forEach(el => {
       const src = el.getAttribute(attr);
       if (src && src.startsWith("http://")) {
-        issues.push({
-          type: "MIXED_CONTENT",
-          tag: selector,
-          url: src
-        });
+        issues.push(`Mixed content: ${selector} → ${src}`);
       }
     });
   };
 
-  checkElements("img", "src");
-  checkElements("script", "src");
-  checkElements("iframe", "src");
+  check("img", "src");
+  check("script", "src");
+  check("iframe", "src");
 
   if (issues.length > 0) {
     chrome.runtime.sendMessage({
-      type: "MIXED_CONTENT",
+      type: "SECURITY_RESULT",
+      level: "warning",
       issues
     });
   } else {
     chrome.runtime.sendMessage({
-      type: "SECURE_SITE"
+      type: "SECURITY_RESULT",
+      level: "safe",
+      issues: []
     });
   }
 })();
