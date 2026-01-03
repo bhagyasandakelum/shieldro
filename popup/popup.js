@@ -12,15 +12,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  const { level, issues } = data[key];
+  const { score, level, issues } = data[key];
 
   statusEl.className = `status ${level}`;
-  statusEl.textContent =
+  statusEl.textContent = `Risk Score: ${score}/100 — ${
     level === "danger"
       ? "High Risk Website"
       : level === "warning"
       ? "Security Warnings Found"
-      : "Secure Website";
+      : level === "notice"
+      ? "Notice"
+      : "Secure Website"
+  }`;
 
   detailsEl.innerHTML = "";
   issues.forEach(issue => {
