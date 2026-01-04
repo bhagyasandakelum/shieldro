@@ -2,19 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Shieldro - Site Security</title>
+  <title>Shieldro</title>
   <link rel="stylesheet" href="popup.css" />
 </head>
 <body>
   <div class="container">
-    <h2 id="title">Site Security</h2>
+    <h2>Site Security</h2>
 
-    <div id="status" class="status safe">
-      Loading...
+    <!-- Risk Gauge -->
+    <div class="gauge-wrapper">
+      <div class="gauge">
+        <div class="needle" id="needle"></div>
+        <div class="center-dot"></div>
+      </div>
+      <div class="risk-text" id="riskText">Analyzing...</div>
     </div>
 
     <ul id="details"></ul>
   </div>
+
+  <footer>
+    Developed by <span>ZeroAxill</span>
+  </footer>
 
   <script src="popup.js"></script>
 </body>
