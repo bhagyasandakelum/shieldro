@@ -76,6 +76,27 @@ document.addEventListener("DOMContentLoaded", async () => {
         OWASP: <span>${issue.owasp}</span>
       </div>
     `;
+/* =========================
+   DETECTION CONFIDENCE
+========================= */
+const confidenceEl = document.getElementById("confidenceText");
+const confidenceRing = document.querySelector(".confidence-ring");
+
+let confidence = "Medium";
+
+if (score >= 60 || issues.length >= 3) {
+  confidence = "High";
+}
+
+confidenceEl.textContent = confidence;
+
+// Confidence ring color
+if (confidence === "High") {
+  confidenceRing.classList.add("high");
+} else {
+  confidenceRing.classList.add("medium");
+}
+
 
     detailsEl.appendChild(li);
   });
