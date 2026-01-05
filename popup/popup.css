@@ -269,30 +269,4 @@ ul li small {
   }
 
 }
-.glow-safe {
-  animation: pulseGlowSafe 3s ease-in-out infinite;
-}
-
-.glow-warning {
-  animation: pulseGlowWarning 3s ease-in-out infinite;
-}
-
-.glow-danger {
-  animation: pulseGlowRisk 3s ease-in-out infinite;
-}
-
-@keyframes pulseGlowSafe {
-  0%, 100% { box-shadow: 0 0 8px rgba(67, 160, 71, 0.5); }
-  50% { box-shadow: 0 0 20px rgba(67, 160, 71, 1); }
-}
-
-@keyframes pulseGlowWarning {
-  0%, 100% { box-shadow: 0 0 8px rgba(251, 192, 45, 0.5); }
-  50% { box-shadow: 0 0 20px rgba(251, 192, 45, 1); }
-}
-
-@keyframes pulseGlowRisk {
-  0%, 100% { box-shadow: 0 0 8px rgba(229, 57, 53, 0.5); }
-  50% { box-shadow: 0 0 20px rgba(229, 57, 53, 1); }
-}
 
