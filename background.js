@@ -57,10 +57,10 @@ chrome.runtime.onMessage.addListener((msg, sender) => {
   if (!sender.tab || sender.tab.id < 0) return;
 
   const tabId = sender.tab.id;
-  const { level, issues, score } = msg.payload;
+  const { level, issues, score, breakdown } = msg.payload;
 
   if (!TAB_SECURITY[tabId]) {
-    TAB_SECURITY[tabId] = { level: "safe", issues: [], score: 0 };
+    TAB_SECURITY[tabId] = { level: "safe", issues: [], score: 0, breakdown: {} };
   }
 
   // Increase severity only if higher priority
@@ -68,13 +68,17 @@ chrome.runtime.onMessage.addListener((msg, sender) => {
     TAB_SECURITY[tabId].level = level;
   }
 
-  // Merge issues safely
-  TAB_SECURITY[tabId].issues = Array.from(
-    new Set([...TAB_SECURITY[tabId].issues, ...issues])
-  );
+  // Merge issues safely (Deduplicate by title)
+  const currentIssues = TAB_SECURITY[tabId].issues;
+  const newIssues = issues.filter(ni => !currentIssues.some(ci => ci.title === ni.title));
 
-  // Score from content script (HTTP + mixed + phishing)
+  TAB_SECURITY[tabId].issues = [...currentIssues, ...newIssues];
+
+  // Score from content script (HTTP + mixed + phishing + content)
   TAB_SECURITY[tabId].score = score;
+
+  // Save breakdown
+  TAB_SECURITY[tabId].breakdown = breakdown;
 
   setBadge(tabId, TAB_SECURITY[tabId].level);
 
@@ -83,6 +87,9 @@ chrome.runtime.onMessage.addListener((msg, sender) => {
   });
 });
 
+/* ================================
+   Security Header Analysis
+================================ */
 /* ================================
    Security Header Analysis
 ================================ */
@@ -104,7 +111,12 @@ chrome.webRequest.onHeadersReceived.addListener(
     for (const [header, points] of Object.entries(SECURITY_HEADERS)) {
       if (!presentHeaders.includes(header)) {
         headerScore += points;
-        headerIssues.push(`Missing security header: ${header}`);
+        headerIssues.push({
+          title: "Missing Security Header",
+          description: `Header '${header}' is missing`,
+          severity: "notice",
+          owasp: "A05: Security Misconfiguration"
+        });
       }
     }
 
@@ -116,10 +128,11 @@ chrome.webRequest.onHeadersReceived.addListener(
       TAB_SECURITY[tabId].score + headerScore
     );
 
-    // Merge issues
-    TAB_SECURITY[tabId].issues = Array.from(
-      new Set([...TAB_SECURITY[tabId].issues, ...headerIssues])
-    );
+    // Merge issues (Deduplicate)
+    const currentIssues = TAB_SECURITY[tabId].issues;
+    const newIssues = headerIssues.filter(ni => !currentIssues.some(ci => ci.description === ni.description));
+
+    TAB_SECURITY[tabId].issues = [...currentIssues, ...newIssues];
 
     // Recalculate level from score
     const score = TAB_SECURITY[tabId].score;

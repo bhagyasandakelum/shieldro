@@ -1,39 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <title>Shieldro</title>
+  <title>Shieldro Security</title>
   <link rel="stylesheet" href="popup.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
-  <div class="container">
-    <h2>Site Security</h2>
-
-    <!-- Risk Gauge -->
-    <div class="gauge-wrapper">
-      <div class="gauge">
-        <div class="needle" id="needle"></div>
-        <div class="center-dot"></div>
+  <div class="app-container">
+    <header>
+      <div class="logo">
+        <span class="logo-icon">🛡️</span> Shieldro
       </div>
-      <div class="risk-text" id="riskText">Analyzing...</div>
-      <div class="confidence-ring">
-      <div class="confidence-text" id="confidenceText">Medium</div>
-      </div>
+    </header>
 
-    </div>
-    <div class="wheel-container">
-  <div class="risk-wheel" id="riskWheel">
-    <div class="wheel-text" id="wheelText">Checking</div>
+    <main>
+      <!-- Hero Section with Score -->
+      <section class="hero-section" id="heroSection">
+        <div class="score-ring-container">
+          <svg class="progress-ring" width="120" height="120">
+            <circle class="progress-ring__circle-bg" stroke="rgba(255,255,255,0.1)" stroke-width="8" fill="transparent"
+              r="52" cx="60" cy="60" />
+            <circle class="progress-ring__circle" stroke="#43A047" stroke-width="8" fill="transparent" r="52" cx="60"
+              cy="60" />
+          </svg>
+          <div class="score-content">
+            <span class="score-value" id="scoreValue">--</span>
+            <span class="score-label">TRUST SCORE</span>
+          </div>
+        </div>
+        <div class="status-badge" id="statusBadge">Checking...</div>
+      </section>
+
+      <!-- Details Grid -->
+      <section class="details-grid">
+        <div class="metric-card">
+          <span class="metric-label">HTTPS</span>
+          <span class="metric-value" id="httpsStatus">--</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Content</span>
+          <span class="metric-value" id="contentStatus">--</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Phishing</span>
+          <span class="metric-value" id="phishingStatus">--</span>
+        </div>
+      </section>
+
+      <!-- Issues List -->
+      <section class="issues-section">
+        <h3>Security Findings</h3>
+        <ul id="issuesList" class="issues-list">
+          <!-- Issues will be injected here -->
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>Protected by <strong>Shieldro</strong></p>
+      <p class="dev-credit">Developed by <span>zeroaxill</span></p>
+    </footer>
   </div>
-</div>
-
-    <ul id="details"></ul>
-  </div>
-
-  <footer>
-    Developed by <span>zeroaxill❤️</span>
-  </footer>
-
   <script src="popup.js"></script>
 </body>
+
 </html>
